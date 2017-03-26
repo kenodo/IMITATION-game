@@ -39,6 +39,10 @@ plugins/
 .TemporaryItems
 .Trashes
 .VolumeIcon.icns
+.xdk
+.xdke
+xdk-publish-meta-data.json
+intelxdk.config.additions.xml
 
 # Directories potentially created on remote AFP share
 .AppleDB
