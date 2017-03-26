@@ -32,6 +32,7 @@ init: function() {
 //загрузка игровых ресурсов до запуска игры
 preload: function() {  
 this.load.image('background', 'images/game.png');
+this.load.image('square', 'images/squaresprite.png');
 },
 
 //исполняется один раз после того, как все ресурсы будут загружены
@@ -88,7 +89,7 @@ var wordDelay = 20;
     }
     
     function step2(){
-    firstText.text = 'Распаковываем блоки...';
+    firstText.text = 'Распаковка блоков...';
     game.add.tween(text).to( { alpha: 0 }, 400, Phaser.Easing.Linear.None, true);
     game.add.tween(firstText).to( { alpha: 1 }, 400, Phaser.Easing.Linear.None, true);
     game.time.events.add(Phaser.Timer.SECOND * 3, pafos, this);
@@ -108,7 +109,7 @@ var wordDelay = 20;
             firstText.boundsAlignH= "center";
             firstText.text = 'Блоки повреждены.';
             var tween2 = game.add.tween(firstText).to( { alpha: 1 }, 400, Phaser.Easing.Linear.None, true);
-            game.time.events.add(Phaser.Timer.SECOND * 3, corrupted, this);
+            game.time.events.add(Phaser.Timer.SECOND * 2, corrupted, this);
            
             
             
@@ -123,21 +124,43 @@ var wordDelay = 20;
                         firstText.text = 'Блоки повреждены.\n Необходимо восстановление первичных [HISTORY] блоков.';
                         firstText.fontSize = 20;
                         firstText.align= "center";
-                        tween = game.add.tween(firstText).to({alpha:1},400,Phaser.Easing.Linear.None,true);                        
+                        tween = game.add.tween(firstText).to({alpha:1},400,Phaser.Easing.Linear.None,true);
+                    tween.onComplete.add(toIntroVideo,this);
                     }
                     
                 }
+    
+    function squareAction(e){
+        alert('square ' + e + ' clicked');
+    }
             
     
     
-    function toGameState(){
+    function toIntroVideo(){
     alert('Переход на состояние GameState');
     
-    background = this.game.add.sprite(0, 0, 'background');  
+    background = this.game.add.sprite(0, 0, 'background');
     background.x = 0;
     background.y = 0;
     background.height = game.height;
     background.width = game.width;
+        
+    var item;
+
+    for (var i = 0; i < 3; i++)
+    {
+        // Give the items a different alpha increase speed.
+        item = game.add.sprite(290, 140 * (i + 1), 'square', i);
+
+        // Enable input.
+        item.inputEnabled = true;
+        item.events.onInputUp.add(squareAction);
+
+        // An item besides the left one.
+        item = game.add.sprite(388, 140 * (i + 1), 'square', i + 3);
+        item.inputEnabled = true;
+        item.events.onInputUp.add(squareAction);
+    }
     //game.state.start('GameState');
         
     
