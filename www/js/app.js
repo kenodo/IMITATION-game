@@ -121,7 +121,7 @@ var wordDelay = 20;
                 function corrupted(){
                     var tween = game.add.tween(firstText).to( { alpha: 0 }, 400, Phaser.Easing.Linear.None, true);
                     tween.onComplete.add(action,this);function action () {
-                        firstText.text = 'Блоки повреждены.\n Необходимо восстановление первичных [HISTORY] блоков.';
+                        firstText.text = 'Блоки повреждены.\n Запускаем восстановление...';
                         firstText.fontSize = 20;
                         firstText.align= "center";
                         tween = game.add.tween(firstText).to({alpha:1},400,Phaser.Easing.Linear.None,true);
@@ -131,35 +131,43 @@ var wordDelay = 20;
                 }
     
     function squareAction(e){
-        alert('square ' + e + ' clicked');
+        //alert('square ' + e + ' clicked');
+        e.x = 100;
     }
             
     
     
     function toIntroVideo(){
-    alert('Переход на состояние GameState');
+    //alert('Переход на состояние GameState');
     
     background = this.game.add.sprite(0, 0, 'background');
     background.x = 0;
     background.y = 0;
     background.height = game.height;
     background.width = game.width;
-        
+            
     var item;
 
     for (var i = 0; i < 3; i++)
     {
+        var xC = game.world.centerX;
+        var yC = game.world.centerY - 70;
+        
         // Give the items a different alpha increase speed.
-        item = game.add.sprite(290, 140 * (i + 1), 'square', i);
-
+        item = game.add.sprite(xC,yC+(70*i), 'square', i);    
+        item.anchor.setTo(0.5,0.5);
+        item = game.add.sprite(xC+70,yC+(70*i),'square',i);
+        item.anchor.setTo(0.5,0.5);
+        //item.x = game.world.centerX;
+        
         // Enable input.
         item.inputEnabled = true;
         item.events.onInputUp.add(squareAction);
 
         // An item besides the left one.
-        item = game.add.sprite(388, 140 * (i + 1), 'square', i + 3);
-        item.inputEnabled = true;
-        item.events.onInputUp.add(squareAction);
+       // item = game.add.sprite(game.world.centerX+140, 140 * (i + 1), 'square', i + 3);
+        //item.inputEnabled = true;
+        //item.events.onInputUp.add(squareAction);
     }
     //game.state.start('GameState');
         
